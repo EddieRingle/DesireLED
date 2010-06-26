@@ -11,9 +11,9 @@ public class DesireLEDLibrary {
 	private static final String TAG = "DesireLED";
 	
 	public static boolean compatible() {
-		return new File("/sys/devices/platform/leds-microp/leds/blue/brightness").exists()
-			&& new File("/sys/devices/platform/leds-microp/leds/green/brightness").exists()
-			&& new File("/sys/devices/platform/leds-microp/leds/amber/brightness").exists();
+		return new File("/sys/class/leds/blue/brightness").exists()
+			&& new File("/sys/class/leds/green/brightness").exists()
+			&& new File("/sys/class/leds/amber/brightness").exists();
 	}
 	
 	public static void setLed(String color, boolean state) {
@@ -26,7 +26,7 @@ public class DesireLEDLibrary {
 		}
 		
 		try {
-			FileWriter out = new FileWriter("/sys/devices/platform/leds-microp/leds/"+color+"/brightness");
+			FileWriter out = new FileWriter("/sys/class/leds/"+color+"/brightness");
 			out.write(writeout);
 			out.close();
 		} catch(IOException e) {
@@ -37,7 +37,7 @@ public class DesireLEDLibrary {
 	public static boolean ledState(String color) {
 		char[] state = {};
 		try {
-			FileReader in = new FileReader("/sys/devices/platform/leds-microp/leds/"+color+"/brightness");
+			FileReader in = new FileReader("/sys/class/leds/"+color+"/brightness");
 			Log.d(TAG, "Reading ready: " + Boolean.toString(in.ready()));
 			int read = in.read(state);
 			Log.d(TAG, "Read x bytes: " + Integer.toString(read));
@@ -66,7 +66,7 @@ public class DesireLEDLibrary {
 		}
 		
 		try {
-			FileWriter out = new FileWriter("/sys/devices/platform/leds-microp/leds/"+color+"/blink");
+			FileWriter out = new FileWriter("/sys/class/leds/"+color+"/blink");
 			out.write(writeout);
 			out.close();
 		} catch(IOException e) {
